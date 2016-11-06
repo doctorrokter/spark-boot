@@ -40,8 +40,9 @@ public class App {
             throw new RuntimeException("You must provide a subclass of AbstractBootstrap");
         }
 
-        Configurator.configureFilters(injector);
-        Configurator.configureControllers(injector);
-        Configurator.configureSchedulers(injector);
+        Configurator.setInjector(injector);
+        Configurator.configureFilters();
+        Configurator.configureControllers();
+        Configurator.configureSchedulers();
     }
 }

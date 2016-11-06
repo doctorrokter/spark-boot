@@ -13,8 +13,13 @@ import static java.util.Arrays.asList;
 public class Configurator {
 
     private static final Logger logger = LoggerFactory.getLogger(Configurator.class);
+    private static Injector injector;
 
-    protected static void configureControllers(Injector injector) {
+    public static void setInjector(Injector inj) {
+        injector = inj;
+    }
+
+    public static void configureControllers() {
         logger.info("Configure controllers...");
         Reflections reflections = new Reflections("app.controllers");
         reflections.getSubTypesOf(AbstractController.class)
@@ -26,7 +31,7 @@ public class Configurator {
                 });
     }
 
-    protected static void configureFilters(Injector injector) {
+    public static void configureFilters() {
         logger.info("Configure filters...");
         Reflections reflections = new Reflections("app.filters");
         reflections.getSubTypesOf(FiltersHolder.class)
@@ -41,7 +46,7 @@ public class Configurator {
                 });
     }
 
-    protected static void configureSchedulers(Injector injector) {
+    public static void configureSchedulers() {
         logger.info("Configure schedulers...");
         Reflections reflections = new Reflections("app.schedulers");
         reflections.getSubTypesOf(AbstractScheduler.class)
