@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>doctorrokter</groupId>
+  <artifactId>spark-boot</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20161106160852</lastUpdated>
+  </versioning>
+</metadata>
