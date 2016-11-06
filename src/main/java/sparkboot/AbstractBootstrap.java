@@ -11,5 +11,5 @@ public abstract class AbstractBootstrap {
 
     public abstract int getPort();
 
-    public void onStartup(Injector injector) {}
+    public void onStartup() {}
 }

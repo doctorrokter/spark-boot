@@ -35,14 +35,13 @@ public class App {
             abstractBootstrap = (AbstractBootstrap) Configurator.createInstance(bootstrap.iterator().next());
             injector = abstractBootstrap.getInjector();
             port(abstractBootstrap.getPort());
-            abstractBootstrap.onStartup(injector);
+            abstractBootstrap.onStartup();
+            Configurator.setInjector(injector);
+            Configurator.configureFilters();
+            Configurator.configureControllers();
+            Configurator.configureSchedulers();
         } else {
             throw new RuntimeException("You must provide a subclass of AbstractBootstrap");
         }
-
-        Configurator.setInjector(injector);
-        Configurator.configureFilters();
-        Configurator.configureControllers();
-        Configurator.configureSchedulers();
     }
 }

@@ -26,7 +26,9 @@ public class Configurator {
                 .stream()
                 .forEach(c -> {
                     AbstractController controller = (AbstractController) createInstance(c);
-                    configureInstance(c, injector);
+                    if (injector != null) {
+                        injector.injectMembers(controller);
+                    }
                     controller.init();
                 });
     }
@@ -37,10 +39,14 @@ public class Configurator {
         reflections.getSubTypesOf(FiltersHolder.class)
                 .forEach(fh -> {
                     FiltersHolder filtersHolder = (FiltersHolder) createInstance(fh);
-                    configureInstance(filtersHolder, injector);
+                    if (injector != null) {
+                        injector.injectMembers(filtersHolder);
+                    }
                     filtersHolder.init();
                     asList(filtersHolder.getFilters()).forEach(f -> {
-                        configureInstance(f, injector);
+                        if (injector != null) {
+                            injector.injectMembers(f);
+                        }
                         f.doFilter();
                     });
                 });
@@ -52,7 +58,9 @@ public class Configurator {
         reflections.getSubTypesOf(AbstractScheduler.class)
                 .forEach(c -> {
                     AbstractScheduler scheduler = (AbstractScheduler) createInstance(c);
-                    configureInstance(scheduler, injector);
+                    if (injector != null) {
+                        injector.injectMembers(scheduler);
+                    }
                     scheduler.schedule();
                 });
     }
@@ -62,12 +70,6 @@ public class Configurator {
             return clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private static void configureInstance(Object o, Injector injector) {
-        if (injector != null) {
-            injector.injectMembers(o);
         }
     }
 }
