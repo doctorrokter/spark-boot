@@ -2,6 +2,7 @@ package sparkboot.filters;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.QueryParamsMap;
 import sparkboot.Filter;
 
 import static spark.Spark.before;
@@ -18,7 +19,7 @@ public class LogFilter implements Filter {
     public void doFilter() {
         before((request, response) -> {
             if (!isStaticResourceRequest(request)) {
-                logger.info("[" + request.requestMethod() + "] " + request.url() + ", params: " + request.queryMap().toString());
+                logger.info("[" + request.requestMethod() + "] " + request.url() + ", params: " + request.queryMap().toMap().toString());
             }
         });
     }
