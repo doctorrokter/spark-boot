@@ -1,6 +1,7 @@
 package sparkboot.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.javalite.activejdbc.Model;
 import spark.Request;
 
@@ -9,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by misha on 05.11.2016.
@@ -16,7 +18,7 @@ import java.util.Map;
 public class Util {
 
     private static String[] ext = {".png", ".woff", ".js", ".css", ".ico"};
-    private static Gson gson = new Gson();
+    private static Gson gson = new GsonBuilder().create();
 
     public static boolean isStaticResourceRequest(Request request) {
         return Arrays.stream(ext).anyMatch(e -> request.url().contains(e));
@@ -57,6 +59,10 @@ public class Util {
 
     public static String toJson(Object o) {
         return gson.toJson(o);
+    }
+
+    public static List<String> toJson(List<? extends Model> models) {
+        return models.stream().map(m -> gson.toJson(m.toMap())).collect(Collectors.toList());
     }
 
     public static Map fromJson(String json) {
