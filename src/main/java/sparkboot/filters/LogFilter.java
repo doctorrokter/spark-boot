@@ -5,6 +5,11 @@ import org.slf4j.LoggerFactory;
 import spark.QueryParamsMap;
 import sparkboot.Filter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.javalite.common.Collections.map;
 import static spark.Spark.before;
 import static sparkboot.util.Util.isStaticResourceRequest;
 
@@ -19,8 +24,17 @@ public class LogFilter implements Filter {
     public void doFilter() {
         before((request, response) -> {
             if (!isStaticResourceRequest(request)) {
-                logger.info("[" + request.requestMethod() + "] " + request.url() + ", params: " + request.queryMap().toMap().toString());
+                logger.info("[" + request.requestMethod() + "] " + request.url() + ", params: " + queryMapToString(request.queryMap()));
             }
         });
+    }
+
+    private static String queryMapToString(QueryParamsMap queryParamsMap) {
+        Map<String, String[]> paramsMap = queryParamsMap.toMap();
+        return paramsMap.keySet()
+                .stream()
+                .map(key -> map(key, String.join(",", paramsMap.get(key))))
+                .collect(Collectors.toList())
+                .toString();
     }
 }
